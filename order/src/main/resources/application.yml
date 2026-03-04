@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: order-service
+  profiles:
+    active: ${ENV}
+  datasource:
+    url: jdbc:postgresql://localhost:5432/order
+    username: leoga
+    password: leoga
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+server:
+  port: 8083
+
+build:
+  id: 1.1.1
+  version: 1.2.3.4
+  name: default-environment
