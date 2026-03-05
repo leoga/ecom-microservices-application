@@ -94,7 +94,7 @@ ecom-microservices-application/
 │   └── test/
 ├── user
 │   ├── main/
-│   │   ├── java/leoga/ecom/user/
+│   │   ├── java/com/leoga/ecom/user/
 │   │   │   ├── controllers/     # REST Controllers
 │   │   │   ├── services/        # Business Logic
 │   │   │   ├── repositories/    # Data Access
