@@ -46,7 +46,7 @@ This will start:
 ## 🔧 Configuration
 
 ### Database
-The application connects to PostgreSQL with the following configuration (defined in `application.properties`):
+The application connects to PostgreSQL with the following configuration (defined in `application.yml`):
 
 - **URL**: `jdbc:postgresql://localhost:5432/leoga`
 - **Username**: `leoga`
