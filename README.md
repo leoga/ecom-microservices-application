@@ -1,6 +1,6 @@
 # eCommerce Application
 
-Monolithic e-commerce application built with **Spring Boot 4.0.3** and **Java 25**, fully dockerized with PostgreSQL as the database.
+Microservices e-commerce application built with **Spring Boot 4.0.3** and **Java 25**, fully dockerized with PostgreSQL as the database.
 
 ## 🚀 Features
 
