@@ -230,6 +230,30 @@ PUT /api/products/{id}
 **Error Response (404 NOT FOUND)**: Product not found
 
 ---
+### Get Product by ID
+```http
+GET /api/products/{id}
+```
+
+**Path Parameters**:
+- `id` (Long) - Product ID
+
+**Successful Response (200 OK)**:
+```json
+{
+  "id": 1,
+  "name": "iPhone 16 Pro",
+  "description": "Latest iPhone with amazing features",
+  "price": 1099.99,
+  "stockQuantity": 50,
+  "category": "Electronics",
+  "imageUrl": "https://placehold.co/600x400",
+  "active": true
+}
+```
+**Error Response (404 NOT FOUND)**: Product not found
+
+---
 
 ### Get All Products
 ```http
