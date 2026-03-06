@@ -1,23 +1,32 @@
 spring:
   application:
     name: order-service
+  config:
+    import: optional:configserver:http://localhost:8889
   profiles:
-    active: ${ENV}
-  datasource:
-    url: jdbc:postgresql://localhost:5432/order
-    username: leoga
-    password: leoga
-  jpa:
-    database: POSTGRESQL
-    show-sql: true
-    hibernate:
-      ddl-auto: update
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    active: gitconfig
 
-server:
-  port: 8083
-
-build:
-  id: 1.1.1
-  version: 1.2.3.4
-  name: default-environment
+#  datasource:
+#    url: jdbc:postgresql://localhost:5432/order
+#    username: ${DB_USER}
+#    password: ${DB_PASSWORD}
+#  jpa:
+#    database: POSTGRESQL
+#    show-sql: true
+#    hibernate:
+#      ddl-auto: update
+#    database-platform: org.hibernate.dialect.PostgreSQLDialect
+#
+#server:
+#  port: 8083
+#
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: "busrefresh"
+#
+#build:
+#  id: Test id
+#  version: Test version
+#  name: Test name

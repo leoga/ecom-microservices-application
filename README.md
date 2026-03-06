@@ -12,6 +12,8 @@ Microservices e-commerce application built with **Spring Boot 4.0.3** and **Java
 - PostgreSQL database (product and order service)
 - MongoDB database (user service)
 - Database administration panel with pgAdmin
+- Spring cloud configuration server (Configuration loaded from [this repository](https://github.com/leoga/app-configuration))
+- RabbitMQ to dynamically update configuration properties
 
 ## 📋 Prerequisites
 

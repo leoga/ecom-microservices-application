@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: configserver
+#  profiles:
+#    active: native
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/leoga/app-configuration
+          search-paths:
+            - ecom-microservices
+# in case of private repository
+#          username: ${GIT_USER}
+#          password: ${GIT_TOKEN}
+
+encrypt:
+  key-store:
+    location: config-server.jks
+    password: mypass
+    alias: config-server-key
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "busrefresh"
+
+server:
+  port: 8889
