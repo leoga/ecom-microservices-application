@@ -32,9 +32,8 @@ public class CartItemService {
         // Look for a product
         Optional<ProductResponse> productOpt = productServiceClient
                 .getProductById(Long.valueOf(cartItemRequest.getProductId()));
-        if (productOpt.isEmpty()) return false;
-
-        if (productOpt.get().getStockQuantity() < cartItemRequest.getQuantity()) return false;
+        if (productOpt.isEmpty()
+            || productOpt.get().getStockQuantity() < cartItemRequest.getQuantity()) return false;
 
         Optional<UserResponse> userOpt = userServiceClient
                 .getUserById(cartItemRequest.getUserId());

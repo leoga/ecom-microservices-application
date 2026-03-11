@@ -52,6 +52,6 @@ public class ProductService {
     }
 
     public ProductResponse getProductById(Long id) {
-        return productRepository.findById(id).map(productMapper::toProductResponse).orElse(null);
+        return productRepository.findByIdAndActiveTrue(id).map(productMapper::toProductResponse).orElse(null);
     }
 }
