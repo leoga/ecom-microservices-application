@@ -1,15 +1,14 @@
 package com.leoga.ecom.order.services;
 
-import com.leoga.ecom.order.dto.CartItemResponse;
-import com.leoga.ecom.order.dto.OrderItemDTO;
-import com.leoga.ecom.order.dto.OrderResponse;
+import com.leoga.ecom.order.clients.ProductServiceClient;
+import com.leoga.ecom.order.clients.UserServiceClient;
+import com.leoga.ecom.order.dto.*;
+import com.leoga.ecom.order.mappers.OrderMapper;
 import com.leoga.ecom.order.model.*;
 import com.leoga.ecom.order.repositories.CartItemRepository;
 import com.leoga.ecom.order.repositories.OrderRepository;
 import com.leoga.ecom.order.model.OrderStatus;
-import com.leoga.ecom.order.model.CartItem;
 import com.leoga.ecom.order.model.Order;
-import com.leoga.ecom.order.model.OrderItem;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,10 +18,13 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class OrderService {
-    //private final UserRepository userRepository;
+
     private final CartItemRepository cartItemRepository;
     private final OrderRepository orderRepository;
     private final CartItemService cartItemService;
+    private final UserServiceClient userServiceClient;
+    private final ProductServiceClient productServiceClient;
+    private final OrderMapper orderMapper;
 
     public OrderResponse createOrder(String userId) {
         // Validate for cart items
@@ -35,46 +37,19 @@ public class OrderService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         // Create order
-//        User user = userRepository.findById(userId).orElse(null);
-//        if (null == user) return null;
+        UserResponse user = userServiceClient.getUserById(userId).orElse(null);
+        if (null == user) return null;
         Order order = new Order();
         order.setUserId(userId);
         order.setTotalAmount(totalPrice);
         order.setStatus(OrderStatus.CONFIRMED);
         order.setItems(cartItemRepository.findByUserId(userId).stream()
-                .map(cartItem -> mapToOrderItem(cartItem, order)).toList());
-
+                .map(cartItem -> orderMapper.fromCartItemToOrderItem(cartItem, order, productServiceClient)).toList());
         orderRepository.save(order);
+
         // Clear cart
         cartItemService.clearCart(userId);
 
-        OrderResponse orderResponse = new OrderResponse();
-        orderResponse.setId(order.getId());
-        orderResponse.setTotalAmount(order.getTotalAmount());
-        orderResponse.setStatus(order.getStatus());
-        List<OrderItemDTO> orderItems = order.getItems().stream()
-                .map(this::mapToOrderItemDTO).toList();
-        orderResponse.setItems(orderItems);
-        orderResponse.setCreatedAt(order.getCreatedAt());
-
-        return orderResponse;
-    }
-
-    private OrderItem mapToOrderItem(CartItem cartItem, Order order) {
-        OrderItem orderItem = new OrderItem();
-        orderItem.setProductId(cartItem.getProductId());
-        orderItem.setQuantity(cartItem.getQuantity());
-        orderItem.setPrice(cartItem.getPrice());
-        orderItem.setOrder(order);
-        return orderItem;
-    }
-
-    private OrderItemDTO mapToOrderItemDTO(OrderItem orderItem) {
-        OrderItemDTO orderItemDTO = new OrderItemDTO();
-        orderItemDTO.setId(orderItem.getId());
-        orderItemDTO.setProductId(orderItem.getProductId());
-        orderItemDTO.setQuantity(orderItem.getQuantity());
-        orderItemDTO.setPrice(orderItem.getPrice());
-        return orderItemDTO;
+        return orderMapper.toOrderResponse(order);
     }
 }

@@ -9,10 +9,8 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class CartItemResponse {
     private Long id;
-//    private UserResponse user;
-//    private ProductResponse product;
-    private String userId;
-    private String productId;
+    private UserResponse user;
+    private ProductResponse product;
     private Integer quantity;
     private BigDecimal price;
 }

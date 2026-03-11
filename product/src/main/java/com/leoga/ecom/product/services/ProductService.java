@@ -2,6 +2,7 @@ package com.leoga.ecom.product.services;
 
 import com.leoga.ecom.product.dto.ProductRequest;
 import com.leoga.ecom.product.dto.ProductResponse;
+import com.leoga.ecom.product.mappers.ProductMapper;
 import com.leoga.ecom.product.model.Product;
 import com.leoga.ecom.product.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,18 +16,17 @@ import java.util.Optional;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final ProductMapper productMapper;
 
     public List<ProductResponse> getAllProducts() {
-        return productRepository.findByActiveTrue().stream().
-                map(this::mapToProductResponse).toList();
+        return productMapper.toResponseList(productRepository.findByActiveTrue());
     }
 
     public ProductResponse createProduct(ProductRequest productRequest) {
-        Product product = new Product();
-        updateProductFromRequest(product, productRequest);
+        Product product = productMapper.toEntity(productRequest);
 
         Product savedProduct = productRepository.save(product);
-        return mapToProductResponse(savedProduct);
+        return productMapper.toProductResponse(savedProduct);
     }
 
     public boolean deleteProduct(Long id) {
@@ -41,42 +41,17 @@ public class ProductService {
     public Optional<ProductResponse> updateProduct(Long id, ProductRequest updatedProduct) {
         return productRepository.findById(id)
                 .map(existingProduct -> {
-                    updateProductFromRequest(existingProduct, updatedProduct);
+                    productMapper.patchProduct(updatedProduct, existingProduct);
                     Product savedProduct = productRepository.save(existingProduct);
-                    return mapToProductResponse(savedProduct);
+                    return productMapper.toProductResponse(savedProduct);
                 });
     }
 
     public List<ProductResponse> SearchProducts(String keyword) {
-        return productRepository.searProducts(keyword)
-                .stream().map(this::mapToProductResponse).toList();
+        return productMapper.toResponseList(productRepository.searchProducts(keyword));
     }
 
     public ProductResponse getProductById(Long id) {
-        return productRepository.findById(id).map(this::mapToProductResponse).orElse(null);
+        return productRepository.findById(id).map(productMapper::toProductResponse).orElse(null);
     }
-
-    private ProductResponse mapToProductResponse(Product product) {
-        ProductResponse productResponse = new ProductResponse();
-        productResponse.setId(product.getId());
-        productResponse.setName(product.getName());
-        productResponse.setDescription(product.getDescription());
-        productResponse.setPrice(product.getPrice());
-        productResponse.setStockQuantity(product.getStockQuantity());
-        productResponse.setCategory(product.getCategory());
-        productResponse.setImageUrl(product.getImageUrl());
-        productResponse.setActive(product.isActive());
-
-        return productResponse;
-    }
-
-    private void updateProductFromRequest(Product product, ProductRequest productRequest) {
-        product.setName(productRequest.getName());
-        product.setDescription(productRequest.getDescription());
-        product.setPrice(productRequest.getPrice());
-        product.setStockQuantity(productRequest.getStockQuantity());
-        product.setCategory(productRequest.getCategory());
-        product.setImageUrl(productRequest.getImageUrl());
-    }
-
 }

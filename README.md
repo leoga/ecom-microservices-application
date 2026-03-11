@@ -14,6 +14,8 @@ Microservices e-commerce application built with **Spring Boot 4.0.3** and **Java
 - Database administration panel with pgAdmin
 - Spring cloud configuration server (Configuration loaded from [this repository](https://github.com/leoga/app-configuration))
 - RabbitMQ to dynamically update configuration properties
+- Eureka service registry
+- Inter-service communication with RestClient and HttpInterface
 
 ## 📋 Prerequisites
 
@@ -119,10 +121,11 @@ ecom-microservices-application/
 - **Additional Dependencies**:
   - Lombok
   - Spring Data JPA
+  - MapStruct
 
 ## 📝 License
 
-This project is part of a training course and is available for educational purposes.
+This project is part of a training course, with additional features developed by me. Feel free to use it for educational purposes.
 
 ## 👤 Author
 

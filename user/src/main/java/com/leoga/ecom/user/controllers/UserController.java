@@ -34,7 +34,7 @@ public class UserController {
         return ResponseEntity.ok("User created successfully");
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<String> updateUser(@PathVariable String id, @RequestBody UserRequest updatedUserRequest) {
         boolean updated = userService.updateUser(id, updatedUserRequest);
         if (updated) return ResponseEntity.ok("User updated successfully");

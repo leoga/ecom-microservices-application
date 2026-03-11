@@ -6,13 +6,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
 import java.util.List;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    Collection<Product> findByActiveTrue();
+    List<Product> findByActiveTrue();
 
     @Query("SELECT p FROM products p WHERE p.active = true AND p.stockQuantity > 0 AND LOWER(p.name) LIKE LOWER(CONCAT('%', :keyword, '%'))")
-    List<Product> searProducts(@Param("keyword") String keyword);
+    List<Product> searchProducts(@Param("keyword") String keyword);
 }

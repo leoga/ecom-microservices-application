@@ -1,10 +1,9 @@
-package com.leoga.ecom.user.model;
-
+package com.leoga.ecom.order.dto;
 
 import lombok.Data;
 
 @Data
-public class Address {
+public class AddressDTO {
     private String street;
     private String city;
     private String state;
