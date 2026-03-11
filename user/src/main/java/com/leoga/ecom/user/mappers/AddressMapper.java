@@ -8,7 +8,6 @@ import org.mapstruct.*;
 @Mapper(config = MapperConfigGlobal.class)
 public interface AddressMapper {
 
-    @Mapping(target = "id", ignore = true)
     Address toEntity(AddressDTO addressDTO);
 
     AddressDTO toDTO(Address address);
