@@ -33,16 +33,25 @@ git clone <repository-url>
 cd ecom-microservices-application
 ```
 
-2. Start services with Docker Compose:
+2. Start services with Docker Compose, in root and Grafana directory:
 ```bash
 docker-compose up -d
 ```
 
-This will start:
+This will start from root directory:
 - **PostgreSQL** on port `5432`
 - **pgAdmin** on port `5050`
+- **RabbitMQ** on port `5672`
 
-3. Build and run the application:
+From Grafana directory:
+- **Grafana** on port `3000` (http://localhost:3000)
+- **Loki's related services**
+- **Prometheus** on port `9090` (http://localhost:9090)
+- **Zipkin** on port `9411` (http://localhost:9411)
+- All these services are configured as data sources in Grafana, so you can manage them all from there.
+
+
+3. Build and run the services, first the ConfigServer and Eureka services, and later the user, product, and order services:
 ```bash
 ./mvnw clean package
 ./mvnw spring-boot:run
