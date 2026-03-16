@@ -16,6 +16,7 @@ Microservices e-commerce application built with **Spring Boot 4.0.3** and **Java
 - RabbitMQ to dynamically update configuration properties
 - Eureka service registry
 - Inter-service communication with RestClient and HttpInterface
+- Grafana with log monitoring, metrics and distributed tracing for all the projects (Loki, Prometheus, Zipkin)
 
 ## 📋 Prerequisites
 
