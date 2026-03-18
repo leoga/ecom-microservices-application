@@ -17,6 +17,7 @@ Microservices e-commerce application built with **Spring Boot 4.0.3** and **Java
 - Eureka service registry
 - Inter-service communication with RestClient and HttpInterface
 - Grafana with log monitoring, metrics and distributed tracing for all the projects (Loki, Prometheus, Zipkin)
+- Gateway API on port 8080
 
 ## 📋 Prerequisites
 

@@ -6,6 +6,7 @@ RESTful API for e-commerce management with users, products, shopping cart, and o
 - User service: `http://localhost:8082/api/`
 - Product service: `http://localhost:8081/api/`
 - Order service: `http://localhost:8083/api/`
+- Gateway API implemented, all the services are now available on: `http://localhost:8080/api/`
 
 ---
 
