@@ -13,6 +13,13 @@ scrape_configs:
       - targets: ['host.docker.internal:8761']
         labels:
           application: 'eureka'
+  - job_name: 'gateway'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 3s
+    static_configs:
+      - targets: ['host.docker.internal:8080']
+        labels:
+          application: 'gateway'
   - job_name: 'order-service'
     metrics_path: '/actuator/prometheus'
     scrape_interval: 3s
