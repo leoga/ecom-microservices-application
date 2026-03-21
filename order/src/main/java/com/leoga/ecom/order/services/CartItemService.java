@@ -9,6 +9,7 @@ import com.leoga.ecom.order.dto.UserResponse;
 import com.leoga.ecom.order.mappers.CartItemMapper;
 import com.leoga.ecom.order.model.CartItem;
 import com.leoga.ecom.order.repositories.CartItemRepository;
+import io.github.resilience4j.retry.annotation.Retry;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,8 +27,13 @@ public class CartItemService {
     private final UserServiceClient userServiceClient;
     private final ProductServiceClient productServiceClient;
     private final CartItemMapper cartItemMapper;
+    int attempt = 0;
 
+//    @CircuitBreaker(name = "productService", fallbackMethod = "addToCartFallback")
+    @Retry(name = "retryBreaker", fallbackMethod = "addToCartFallback")
     public boolean addToCart(CartItemRequest cartItemRequest) {
+
+        System.out.println("ATTEMPT COUNT: " + ++attempt);
 
         // Look for a product
         Optional<ProductResponse> productOpt = productServiceClient
@@ -73,5 +79,10 @@ public class CartItemService {
 
     public List<CartItemResponse> getCartItems(String userId) {
         return cartItemMapper.toCartItemResponseList(cartItemRepository.findByUserId(userId), userServiceClient, productServiceClient);
+    }
+
+    public boolean addToCartFallback(CartItemRequest cartItemRequest, Exception exception) {
+        System.out.println("FALLBACK CALLED");
+        return false;
     }
 }

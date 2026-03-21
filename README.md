@@ -18,6 +18,7 @@ Microservices e-commerce application built with **Spring Boot 4.0.3** and **Java
 - Inter-service communication with RestClient and HttpInterface
 - Grafana with log monitoring, metrics and distributed tracing for all the projects (Loki, Prometheus, Zipkin)
 - Gateway API on port 8080
+- Fault tolerance at Microservices and Gateway level (Resilience4j and Spring Data Reactive Redis). Apache JMeter was used to test Rate Limiter.
 
 ## 📋 Prerequisites
 
@@ -43,6 +44,7 @@ This will start from root directory:
 - **PostgreSQL** on port `5432`
 - **pgAdmin** on port `5050`
 - **RabbitMQ** on port `5672`
+- **Redis** on port `6379` (For Rate Limiter implementation at Gateway level)
 
 From Grafana directory:
 - **Grafana** on port `3000` (http://localhost:3000)
