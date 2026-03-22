@@ -11,3 +11,4 @@
 2026-03-23T00:09:38.974+01:00  INFO 28100 --- [eureka-service] [ReplicaAwareInstanceRegistry - RenewalThresholdUpdater] [                                                 ] c.n.e.r.PeerAwareInstanceRegistryImpl    : Current renewal threshold is : 10
 2026-03-23T00:09:39.227+01:00  INFO 28100 --- [eureka-service] [Eureka-EvictionTimer] [                                                 ] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
 2026-03-23T00:10:39.228+01:00  INFO 28100 --- [eureka-service] [Eureka-EvictionTimer] [                                                 ] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2026-03-23T00:11:39.228+01:00  INFO 28100 --- [eureka-service] [Eureka-EvictionTimer] [                                                 ] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
