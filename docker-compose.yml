@@ -60,21 +60,6 @@ services:
     networks:
     - backend
     restart: unless-stopped
-  rabbitmq:
-    container_name: rabbitmq
-    image: rabbitmq:4-management
-    environment:
-      RABBITMQ_DEFAULT_USER: guest
-      RABBITMQ_DEFAULT_PASS: guest
-      JAVA_TOOL_OPTIONS: "-Xms256m -Xmx512m"
-    volumes:
-      - rabbitmq_data:/var/lib/rabbitmq
-    ports:
-      - "5672:5672"   # RabbitMQ Message Broker
-      - "15672:15672" # RabbitMQ Management UI (http://localhost:15672)
-    networks:
-      - backend
-    restart: unless-stopped
   redis:
     container_name: redis_container
     image: redis:latest
@@ -93,5 +78,4 @@ networks:
 volumes:
   postgres:
   pgadmin:
-  rabbitmq_data:
 #  mysql_data:

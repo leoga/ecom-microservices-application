@@ -1,0 +1,94 @@
+#Testing filters in yml configuration - configured in java configuration class
+# spring:
+#  cloud:
+#    gateway:
+#      server:
+#        webflux:
+#          routes:
+#            - id: product-service
+#              uri: lb://PRODUCT-SERVICE
+#              predicates:
+#                - Path=/products/**
+#              filters:
+#                - "RewritePath=/products(?<segment>/?.*),/api/products${segment}"
+#            - id: user-service
+#              uri: lb://USER-SERVICE
+#              predicates:
+#                - Path=/users/**
+#              filters:
+#                - "RewritePath=/users(?<segment>/?.*),/api/users${segment}"
+#            - id: order-service
+#              uri: lb://ORDER-SERVICE
+#              predicates:
+#                - Path=/cart/**, /orders/**
+#              filters:
+#                - "RewritePath=/(?<segment>.*),/api/${segment}"
+#            - id: eureka-server
+#              uri: http://localhost:8761
+#              predicates:
+#                - Path=/eureka/main
+#              filters:
+#                - SetPath=/
+#            - id: eureka-server-static
+#              uri: http://localhost:8761
+#              predicates:
+#                - Path=/eureka/**
+spring:
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USER:guest}
+    password: ${RABBITMQ_PASS:guest}
+    virtual-host: ${RABBITMQ_VHOST:guest}
+    connection-timeout: 30000
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  tracing:
+    sampling:
+      probability: 1.0 # It means that it will capture 100% of the requests. This should be 10% or 20% (0.1 or 0.2)
+  endpoint:
+    health:
+      show-details: always
+  health:
+    circuitbreakers:
+      enabled: true
+
+logging:
+  level:
+    root: INFO #(TRACE, DEBUG, INFO, WARN, ERROR)
+#    org.springframework.cloud.gateway.route.RouteDefinitionLocator: INFO
+#    org.springframework.cloud.gateway: TRACE
+  file:
+    name: logs/${spring.application.name}.log
+  logback:
+    rollingpolicy:
+      max-file-size: 5MB
+      max-history: 7 # It stores them for 7 days
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+    register-with-eureka: true
+    fetch-registry: true
+
+# Circuit Breaker
+resilience4j:
+  circuitbreaker:
+    instances:
+      ecomBreaker:
+        register-health-indicator: true
+        sliding-window-size: 10
+        minimum-number-of-calls: 5
+        permitted-number-of-calls-in-half-open-state: 3
+        wait-duration-in-open-state: 10s
+        failure-rate-threshold: 50
+        automatic-transition-from-open-to-half-open-enabled: true
+        sliding-window-type: count_based

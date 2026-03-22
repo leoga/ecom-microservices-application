@@ -1,6 +1,6 @@
 # eCommerce Application
 
-Microservices e-commerce application built with **Spring Boot 4.0.3** and **Java 25**, fully dockerized with PostgreSQL as the database.
+Microservices e-commerce application built with **Spring Boot 4.0.4** and **Java 26**, fully dockerized with PostgreSQL as the database.
 
 ## 🚀 Features
 
@@ -8,6 +8,7 @@ Microservices e-commerce application built with **Spring Boot 4.0.3** and **Java
 - Product catalog with search functionality
 - Shopping cart
 - Order system
+- Notification service with asynchronous communication with order service using RabbitMQ message broker.
 - RESTful API
 - PostgreSQL database (product and order service)
 - MongoDB database (user service)
@@ -23,7 +24,7 @@ Microservices e-commerce application built with **Spring Boot 4.0.3** and **Java
 ## 📋 Prerequisites
 
 - Docker and Docker Compose
-- Java 25 (for local development)
+- Java 26 (for local development)
 - Maven 3.x (for local development)
 - MongoDB installed locally or configured in the cloud via Atlas
 
@@ -43,7 +44,7 @@ docker-compose up -d
 This will start from root directory:
 - **PostgreSQL** on port `5432`
 - **pgAdmin** on port `5050`
-- **RabbitMQ** on port `5672`
+- ~~**RabbitMQ** on port `5672`~~ RabbitMQ moved to cloud configuration using [CloudAMQP](https://www.cloudamqp.com/)
 - **Redis** on port `6379` (For Rate Limiter implementation at Gateway level)
 
 From Grafana directory:
@@ -90,7 +91,10 @@ ecom-microservices-application/
 ├── order
 │   ├── main/
 │   │   ├── java/com/leoga/ecom/order/
+│   │   │   ├── clients/         # Inter-service communication
+│   │   │   ├── configuration/   # Service configuration classes
 │   │   │   ├── controllers/     # REST Controllers
+│   │   │   ├── mappers/         # MapStruct mappers
 │   │   │   ├── services/        # Business Logic
 │   │   │   ├── repositories/    # Data Access
 │   │   │   ├── model/           # JPA Entities
@@ -101,7 +105,9 @@ ecom-microservices-application/
 ├── product
 │   ├── main/
 │   │   ├── java/com/leoga/ecom/product/
+│   │   │   ├── configuration/   # Service configuration classes
 │   │   │   ├── controllers/     # REST Controllers
+│   │   │   ├── mappers/         # MapStruct mappers
 │   │   │   ├── services/        # Business Logic
 │   │   │   ├── repositories/    # Data Access
 │   │   │   ├── model/           # JPA Entities
@@ -112,11 +118,22 @@ ecom-microservices-application/
 ├── user
 │   ├── main/
 │   │   ├── java/com/leoga/ecom/user/
+│   │   │   ├── configuration/   # Service configuration classes
 │   │   │   ├── controllers/     # REST Controllers
+│   │   │   ├── mappers/         # MapStruct mappers
 │   │   │   ├── services/        # Business Logic
 │   │   │   ├── repositories/    # Data Access
 │   │   │   ├── model/           # JPA Entities
 │   │   │   └── dto/             # Data Transfer Objects
+│   │   └── resources/
+│   │       └── application.yml
+│   └── test/
+├── notification
+│   ├── main/
+│   │   ├── java/com/leoga/ecom/notification/
+│   │   │   ├── configuration/   # Service configuration classes
+│   │   │   ├── payload/         # Event DTO for asynchronous communication
+│   │   │   ├── services/        # Event consumer
 │   │   └── resources/
 │   │       └── application.yml
 │   └── test/
@@ -125,8 +142,8 @@ ecom-microservices-application/
 
 ## 🛠️ Technologies
 
-- **Framework**: Spring Boot 4.0.3
-- **Language**: Java 25
+- **Framework**: Spring Boot 4.0.4
+- **Language**: Java 26
 - **Database**: PostgreSQL 18 And MongoDB 8.2.5 Community 
 - **ORM**: Hibernate/JPA
 - **Build Tool**: Maven

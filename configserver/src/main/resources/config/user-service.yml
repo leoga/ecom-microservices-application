@@ -1,0 +1,54 @@
+spring:
+  application:
+    name: user-service
+  mongodb:
+    uri: mongodb://localhost:27017/userdb
+    database: userdb
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USER:guest}
+    password: ${RABBITMQ_PASS:guest}
+    virtual-host: ${RABBITMQ_VHOST:guest}
+    connection-timeout: 30000
+
+
+#  datasource:
+#    url: jdbc:postgresql://localhost:5432/userdb
+#    username: {DB_USER}
+#    password: {DB_PASSWORD}
+#  jpa:
+#    database: POSTGRESQL
+#    show-sql: true
+#    hibernate:
+#      ddl-auto: update
+#    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+server:
+  port: 8082
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "busrefresh, prometheus"
+  tracing:
+    sampling:
+      probability: 1.0
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+    register-with-eureka: true
+    fetch-registry: true
+
+logging:
+  level:
+    root: INFO #(TRACE, DEBUG, INFO, WARN, ERROR)
+  file:
+    name: logs/${spring.application.name}.log
+  logback:
+    rollingpolicy:
+      max-file-size: 5MB
+      max-history: 7 # It stores them for 7 days

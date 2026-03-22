@@ -2,10 +2,7 @@ package com.leoga.ecom.order.mappers;
 
 import com.leoga.ecom.order.clients.ProductServiceClient;
 import com.leoga.ecom.order.configuration.MapperConfigGlobal;
-import com.leoga.ecom.order.dto.OrderItemDTO;
-import com.leoga.ecom.order.dto.OrderResponse;
-import com.leoga.ecom.order.dto.ProductRequest;
-import com.leoga.ecom.order.dto.ProductResponse;
+import com.leoga.ecom.order.dto.*;
 import com.leoga.ecom.order.model.CartItem;
 import com.leoga.ecom.order.model.Order;
 import com.leoga.ecom.order.model.OrderItem;
@@ -25,6 +22,9 @@ public interface OrderMapper {
     @Mapping(target = "order", source = "order")
     OrderItem fromCartItemToOrderItem(CartItem cartItem, Order order,
                                       @Context ProductServiceClient productServiceClient);
+
+    @Mapping(target = "items", source = "items")
+    OrderCreatedEvent toOrderCreatedEvent(Order order);
 
     List<OrderItemDTO> toOrderItemDTOList(List<OrderItem> orderItems);
 
