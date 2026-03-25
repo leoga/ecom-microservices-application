@@ -9,14 +9,29 @@ spring:
     password: ${RABBITMQ_PASS:guest}
     virtual-host: ${RABBITMQ_VHOST:guest}
     connection-timeout: 30000
+  cloud:
+    function:
+      definition: orderCreated
+    stream:
+      default-binder: rabbit # (for spring cloud bus, configServer)
+      bindings:
+        orderCreated-in-0:
+#          destination: order.exchange
+          destination: order-topic
+          group: notification-group
+          content-type: application/json
+          binder: kafka
+      kafka:
+        binder:
+          brokers: localhost:9092
 
-rabbitmq:
-  exchange:
-    name: order.exchange
-  queue:
-    name: order.queue
-  routing:
-    key: order.tracking
+#rabbitmq:
+#  exchange:
+#    name: order.exchange
+#  queue:
+#    name: order.queue
+#  routing:
+#    key: order.tracking
 
 management:
   endpoints:

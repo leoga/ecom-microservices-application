@@ -1,6 +1,23 @@
 spring:
   application:
     name: order-service
+  cloud:
+    stream:
+      default-binder: rabbit # (for spring cloud bus, configServer)
+      bindings:
+        createOrder-out-0:
+#          destination: order.exchange
+          destination: order-topic
+          content-type: application/json
+          binder: kafka
+#      rabbit:
+#        bindings:
+#          createOrder-out-0:
+#            producer:
+#              routing-key-expression: '''order.tracking'''
+      kafka:
+        binder:
+          brokers: localhost:9092
 
   datasource:
     url: jdbc:postgresql://localhost:5432/order
@@ -21,13 +38,13 @@ spring:
     virtual-host: ${RABBITMQ_VHOST:guest}
     connection-timeout: 30000
 
-rabbitmq:
-  exchange:
-    name: order.exchange
-  queue:
-    name: order.queue
-  routing:
-    key: order.tracking
+#rabbitmq:
+#  exchange:
+#    name: order.exchange
+#  queue:
+#    name: order.queue
+#  routing:
+#    key: order.tracking
 
 server:
   port: 8083

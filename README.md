@@ -8,7 +8,7 @@ Microservices e-commerce application built with **Spring Boot 4.0.4** and **Java
 - Product catalog with search functionality
 - Shopping cart
 - Order system
-- Notification service with asynchronous communication with order service using RabbitMQ message broker.
+- Notification service with asynchronous communication with order service using ~~RabbitMQ message broker~~ Kafka distributed event streaming platform within Spring Cloud Stream.
 - RESTful API
 - PostgreSQL database (product and order service)
 - MongoDB database (user service)
@@ -44,8 +44,9 @@ docker-compose up -d
 This will start from root directory:
 - **PostgreSQL** on port `5432`
 - **pgAdmin** on port `5050`
-- ~~**RabbitMQ** on port `5672`~~ RabbitMQ moved to cloud configuration using [CloudAMQP](https://www.cloudamqp.com/)
+- ~~**RabbitMQ** on port `5672`~~ RabbitMQ moved to cloud configuration using [CloudAMQP](https://www.cloudamqp.com/) (For now necessary for Spring cloud bus)
 - **Redis** on port `6379` (For Rate Limiter implementation at Gateway level)
+- **Kafka** on port `9092`
 
 From Grafana directory:
 - **Grafana** on port `3000` (http://localhost:3000)

@@ -2,7 +2,6 @@ package com.leoga.ecom.order.services;
 
 import com.leoga.ecom.order.clients.ProductServiceClient;
 import com.leoga.ecom.order.clients.UserServiceClient;
-import com.leoga.ecom.order.configuration.RabbitMQData;
 import com.leoga.ecom.order.dto.*;
 import com.leoga.ecom.order.mappers.OrderMapper;
 import com.leoga.ecom.order.model.*;
@@ -11,7 +10,7 @@ import com.leoga.ecom.order.repositories.OrderRepository;
 import com.leoga.ecom.order.model.OrderStatus;
 import com.leoga.ecom.order.model.Order;
 import lombok.RequiredArgsConstructor;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -27,8 +26,9 @@ public class OrderService {
     private final UserServiceClient userServiceClient;
     private final ProductServiceClient productServiceClient;
     private final OrderMapper orderMapper;
-    private final RabbitTemplate rabbitTemplate;
-    private final RabbitMQData rabbitMQData;
+//    private final RabbitTemplate rabbitTemplate;
+//    private final RabbitMQData rabbitMQData;
+    private final StreamBridge streamBridge;
 
     public OrderResponse createOrder(String userId) {
         // Validate for cart items
@@ -54,9 +54,10 @@ public class OrderService {
         // Clear cart
         cartItemService.clearCart(userId);
 
-        rabbitTemplate.convertAndSend(rabbitMQData.getExchange().getName(),
-                rabbitMQData.getRouting().getKey(),
-                orderMapper.toOrderCreatedEvent(order));
+//        rabbitTemplate.convertAndSend(rabbitMQData.getExchange().getName(),
+//                rabbitMQData.getRouting().getKey(),
+//                orderMapper.toOrderCreatedEvent(order));
+        streamBridge.send("createOrder-out-0", orderMapper.toOrderCreatedEvent(order));
 
         return orderMapper.toOrderResponse(order);
     }
