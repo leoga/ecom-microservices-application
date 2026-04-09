@@ -28,8 +28,11 @@ POST /api/users
 ```
 
 **Request Body (JSON)**:
+- 09/04/2026: New data added for integration with Keycloak and security features
 ```json
 {
+  "userName": "John",
+  "password": "John",  
   "firstName": "John",
   "lastName": "Doe",
   "email": "john@gmail.com",
@@ -95,6 +98,7 @@ GET /api/users
 [
   {
     "id": "69a8715a0d7513753c2209f4",
+    "keycloakId": "6b72077b-d19f-4055-83f5-40681707ec11",
     "firstName": "John updated",
     "lastName": "Doe updated",
     "email": "john@gmail.com",
@@ -124,6 +128,7 @@ GET /api/users/{id}
 ```json
 {
   "id": "69a8715a0d7513753c2209f4",
+  "keycloakId": "6b72077b-d19f-4055-83f5-40681707ec11",
   "firstName": "John",
   "lastName": "Doe",
   "email": "john@gmail.com",
@@ -672,7 +677,7 @@ curl -X POST http://localhost:8083/api/orders \
 
 ## 💡 Additional Notes
 
-1. **Authentication**: Currently the API uses a simple `X-User-ID` header to identify users. In production, JWT or OAuth2 should be implemented.
+1. ~~**Authentication**: Currently the API uses a simple `X-User-ID` header to identify users. In production, JWT or OAuth2 should be implemented.~~ **Implemented (09/04/2026)**
 
 2. **Validation**: It's recommended to add validations with `@Valid` and Bean Validation constraints on DTOs.
 
@@ -682,4 +687,4 @@ curl -X POST http://localhost:8083/api/orders \
 
 5. **Error Handling**: Implement a global `@ControllerAdvice` for consistent exception handling.
 
-6. **Security**: The current implementation doesn't include authentication/authorization. Consider implementing Spring Security for production use.
+6. ~~**Security**: The current implementation doesn't include authentication/authorization. Consider implementing Spring Security for production use.~~ **Implemented (09/04/2026)**

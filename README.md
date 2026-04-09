@@ -1,6 +1,6 @@
 # eCommerce Application
 
-Microservices e-commerce application built with **Spring Boot 4.0.4** and **Java 26**, fully dockerized with PostgreSQL as the database.
+Microservices e-commerce application built with **Spring Boot 4.0.5** and **Java 26**, fully dockerized with PostgreSQL as the database.
 
 ## 🚀 Features
 
@@ -20,6 +20,7 @@ Microservices e-commerce application built with **Spring Boot 4.0.4** and **Java
 - Grafana with log monitoring, metrics and distributed tracing for all the projects (Loki, Prometheus, Zipkin)
 - Gateway API on port 8080
 - Fault tolerance at Microservices and Gateway level (Resilience4j and Spring Data Reactive Redis). Apache JMeter was used to test Rate Limiter.
+- Security at Gateway level using Keycloak With OAuth 2.0 and PKCE flow. A backup of the Keycloak realm is available in the `Keycloak-realm-backup` folder.
 
 ## 📋 Prerequisites
 
@@ -43,10 +44,12 @@ docker-compose up -d
 
 This will start from root directory:
 - **PostgreSQL** on port `5432`
+- **MongoDB** on port `27017`
 - **pgAdmin** on port `5050`
 - ~~**RabbitMQ** on port `5672`~~ RabbitMQ moved to cloud configuration using [CloudAMQP](https://www.cloudamqp.com/) (For now necessary for Spring cloud bus)
 - **Redis** on port `6379` (For Rate Limiter implementation at Gateway level)
 - **Kafka** on port `9092`
+- **Keycloak** on port `8443`
 
 From Grafana directory:
 - **Grafana** on port `3000` (http://localhost:3000)
@@ -77,7 +80,12 @@ Access pgAdmin at `http://localhost:5050`:
 - **Password**: `admin`
 
 ### MongoDB (Install Compass)
-- url: mongodb://localhost:27017/userdb
+- **url**: mongodb://localhost:27017/userdb
+
+### Keycloak
+- **URL**: `http://localhost:8443`
+- **Username**: `admin`
+- **Password**: `admin`
 
 ## 📚 API Documentation
 
@@ -143,7 +151,7 @@ ecom-microservices-application/
 
 ## 🛠️ Technologies
 
-- **Framework**: Spring Boot 4.0.4
+- **Framework**: Spring Boot 4.0.5
 - **Language**: Java 26
 - **Database**: PostgreSQL 18 And MongoDB 8.2.5 Community 
 - **ORM**: Hibernate/JPA

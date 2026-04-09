@@ -16,14 +16,22 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final KeyCloakAdminService keyCloakAdminService;
 
     public List<UserResponse> getAllUsers() {
         return userMapper.toUserResponseList(userRepository.findAll());
     }
 
     public void addUser(UserRequest userRequest) {
-        User user = userMapper.toEntity(userRequest);
 
+        String token = keyCloakAdminService.getAdminAccessToken();
+        String keyCloakUserId = keyCloakAdminService.createUser(token, userRequest);
+
+        User user = userMapper.toEntity(userRequest);
+        user.setKeycloakId(keyCloakUserId);
+
+        // Role name hardcoded for testing, it could be included in UserRequest
+        keyCloakAdminService.assignRealmRoleToUser(userRequest.getUserName(), "USER", keyCloakUserId);
         userRepository.save(user);
     }
 

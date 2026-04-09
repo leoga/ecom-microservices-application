@@ -52,3 +52,13 @@ logging:
     rollingpolicy:
       max-file-size: 5MB
       max-history: 7 # It stores them for 7 days
+
+# KEYCLOAK
+keycloak:
+  admin:
+    username: user
+    password: user
+    server-url: http://localhost:8443
+    realm: ecom-app
+    client-id: admin-cli
+    client-uuid: 0bf58e51-aa3f-4286-a19e-caf50afd0358

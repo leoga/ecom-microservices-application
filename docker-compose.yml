@@ -37,9 +37,8 @@ services:
       POSTGRES_USER: leoga
       POSTGRES_PASSWORD: leoga
       PGDATA: /data/postgres
-      JAVA_TOOL_OPTIONS: "-Xms256m -Xmx512m"
     volumes:
-      - postgres:/data/postdres
+      - postgres:/data/postgres
     ports:
       - "5432:5432"
     networks:
@@ -88,6 +87,32 @@ services:
       - backend
     volumes:
       - kafka:/var/lib/kafka/data
+  keycloak:
+    container_name: keycloak
+    image: quay.io/keycloak/keycloak:26.5.6
+    command: start-dev
+    ports:
+      - "8443:8080"
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      JAVA_TOOL_OPTIONS: "-Xms256m -Xmx512m"
+    restart: unless-stopped
+    networks:
+      - backend
+    volumes:
+      - keycloak-data:/opt/keycloak/data
+  mongo:
+    image: mongodb/mongodb-community-server:latest
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    restart: unless-stopped
+    networks:
+      - backend
+    volumes:
+      - mongo:/data/db
+
 
 networks:
   backend:
@@ -99,4 +124,6 @@ volumes:
   postgres:
   pgadmin:
   kafka:
+  keycloak-data:
+  mongo:
 #  mysql_data:
