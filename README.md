@@ -27,7 +27,7 @@ Microservices e-commerce application built with **Spring Boot 4.0.5** and **Java
 - Docker and Docker Compose
 - Java 26 (for local development)
 - Maven 3.x (for local development)
-- MongoDB installed locally or configured in the cloud via Atlas
+- ~~MongoDB installed locally or configured in the cloud via Atlas~~ Moved to docker compose.
 
 ## 🐳 Installation and Execution with Docker
 
