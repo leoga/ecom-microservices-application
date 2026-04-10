@@ -80,7 +80,7 @@ Access pgAdmin at `http://localhost:5050`:
 - **Password**: `admin`
 
 ### MongoDB (Install Compass)
-- **url**: mongodb://localhost:27017/userdb
+- **URL**: mongodb://localhost:27017/userdb
 
 ### Keycloak
 - **URL**: `http://localhost:8443`
@@ -93,7 +93,7 @@ For more details about available endpoints, see [API_DOCUMENTATION.md](API_DOCUM
 
 ## 🏗️ Architecture
 
-This is a **monolithic** application with the following structure:
+This is a **microservices** application with the following structure:
 
 ```
 ecom-microservices-application/
