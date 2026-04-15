@@ -4,8 +4,6 @@ Production-like microservices-based eCommerce platform built with Spring Boot an
 
 The system implements a distributed architecture including API Gateway, service discovery, centralized configuration, event-driven communication, resilience patterns, security, and a full observability stack. The infrastructure is containerized using Docker, while microservices containerization is currently in progress. The system is designed to be cloud-ready.
 
----
-
 ## 🏗️ Architecture & Key Features
 
 This project follows a microservices architecture where each service is independently deployable, loosely coupled, and owns its data.
@@ -31,8 +29,6 @@ This project follows a microservices architecture where each service is independ
 - Designed for scalability and cloud deployment
 - Infrastructure reproducible via Docker Compose
 
----
-
 ## 🔄 System Flow
 
 1. Client requests enter through the API Gateway
@@ -45,8 +41,6 @@ This project follows a microservices architecture where each service is independ
 6. Configuration changes are propagated using Spring Cloud Bus (RabbitMQ)
 7. Logs, metrics, and traces are collected and visualized through the observability stack
 
----
-
 ## 🧠 Design Decisions
 
 - **Kafka** is used for asynchronous communication to decouple services and improve scalability
@@ -54,8 +48,6 @@ This project follows a microservices architecture where each service is independ
 - **Keycloak** provides centralized authentication and authorization using OAuth2
 - **Resilience4j** ensures system stability and fault tolerance under load
 - **Database per service** pattern ensures loose coupling and independent scalability
-
----
 
 ## ☁️ Cloud Readiness
 
@@ -66,8 +58,6 @@ The system is designed to be deployed in cloud environments such as AWS:
 - Externalized configuration for environment flexibility
 - Scalable messaging infrastructure
 - Clear separation between infrastructure and application layers
-
----
 
 ## 🐳 Installation & Execution
 
@@ -172,7 +162,8 @@ UserService --> MongoDB[(MongoDB)]
 ProductService --> PostgreSQL[(PostgreSQL)]
 OrderService --> PostgreSQL
 
-OrderService --> Kafka[(Kafka)]
+%% Event-driven communication (only on order creation)
+OrderService -- "Order Created Event" --> Kafka[(Kafka)]
 Kafka --> NotificationService
 
 ConfigServer --> Services[All Microservices]
