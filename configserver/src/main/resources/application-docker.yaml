@@ -21,7 +21,7 @@ spring:
 #          username: ${GIT_USER}
 #          password: ${GIT_TOKEN}
         native:
-          search-locations: file:///C:\Users\leoga\Formación\Proyectos\Course 1\ecom-microservices\configserver\src\main\resources\config
+          search-locations: classpath:/config
 
 encrypt:
   key-store:

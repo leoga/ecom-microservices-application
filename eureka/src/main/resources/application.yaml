@@ -1,13 +1,6 @@
 spring:
   application:
     name: eureka-service
-  rabbitmq:
-    host: ${RABBITMQ_HOST:localhost}
-    port: ${RABBITMQ_PORT:5672}
-    username: ${RABBITMQ_USER:guest}
-    password: ${RABBITMQ_PASS:guest}
-    virtual-host: ${RABBITMQ_VHOST:guest}
-    connection-timeout: 30000
 
 server:
   port: 8761
@@ -16,7 +9,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: "busrefresh, prometheus"
+        include: "prometheus"
   tracing:
     sampling:
       probability: 1.0 # It means that it will capture 100% of the requests. This should be 10% or 20% (0.1 or 0.2)

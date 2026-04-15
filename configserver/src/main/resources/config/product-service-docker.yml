@@ -1,0 +1,53 @@
+spring:
+  application:
+    name: product-service
+  datasource:
+    url: jdbc:postgresql://postgres:5432/product
+#User and password are leoga. They are encrypted using a keystore and an RSA key pair. The Keystore was generated with java keytool (located in the bin folder of java installation)
+    username: "{cipher}AYCBsTMIVIOgz298rbVw8lMUzPZet+kkFgWme4cfOB+gp+N9i+YfI1fGtFINNGrarfGr0D5l6dsJJ135RUjGG3uGbmKw6NeTzD1+cDpi39julQE6NPchNeXITn7Xql3oQ4q4mLzGFyJmObkdUoNFZq/pgy5CJRvs6QIiEfpVL+HVKcCR9J2sRh5XTZrGcFTPUZsbz1m0uyS8rKoYGmk8Kv9OHRl5wW2YEmVameQmFwi0GRgLf96Sp0dPNIk/V1MMnEgk3AWGzQG34Sbj2Hd98EUzDtVBybWRAtdg/NjGYUP+RDcBLhmC0wjcGp4wtPs91IjtR17Ma+51j+WnXzBl8DjkgsC4KCYMUrW2krnzy8AoMau6ZqaZp1IqRjjdY6QRfMDbNK0/8fu6tz6Pf/L2hzZwuDrpr5BVZQPCtJSsxVkC72DjwyKKCUJPVEblH2SybDcpo89S43ucNZwp2MV7RNr4T8WdjkHL9E4PWkHrc7s4Ny0nkekovDrcmqBAUVpgHAN30/OJK6IPBwpegMQShpkMKCvbs6H44W3cP27rEuX1yg=="
+    password: "{cipher}AYCBsTMIVIOgz298rbVw8lMUzPZet+kkFgWme4cfOB+gp+N9i+YfI1fGtFINNGrarfGr0D5l6dsJJ135RUjGG3uGbmKw6NeTzD1+cDpi39julQE6NPchNeXITn7Xql3oQ4q4mLzGFyJmObkdUoNFZq/pgy5CJRvs6QIiEfpVL+HVKcCR9J2sRh5XTZrGcFTPUZsbz1m0uyS8rKoYGmk8Kv9OHRl5wW2YEmVameQmFwi0GRgLf96Sp0dPNIk/V1MMnEgk3AWGzQG34Sbj2Hd98EUzDtVBybWRAtdg/NjGYUP+RDcBLhmC0wjcGp4wtPs91IjtR17Ma+51j+WnXzBl8DjkgsC4KCYMUrW2krnzy8AoMau6ZqaZp1IqRjjdY6QRfMDbNK0/8fu6tz6Pf/L2hzZwuDrpr5BVZQPCtJSsxVkC72DjwyKKCUJPVEblH2SybDcpo89S43ucNZwp2MV7RNr4T8WdjkHL9E4PWkHrc7s4Ny0nkekovDrcmqBAUVpgHAN30/OJK6IPBwpegMQShpkMKCvbs6H44W3cP27rEuX1yg=="
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        format_sql: true
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USER:guest}
+    password: ${RABBITMQ_PASS:guest}
+    virtual-host: ${RABBITMQ_VHOST:guest}
+    connection-timeout: 30000
+
+server:
+  port: 8081
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "busrefresh, prometheus"
+  tracing:
+    sampling:
+      probability: 1.0
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka:8761/eureka
+    register-with-eureka: true
+    fetch-registry: true
+
+logging:
+  level:
+    root: INFO #(TRACE, DEBUG, INFO, WARN, ERROR)
+  file:
+    name: logs/${spring.application.name}.log
+  logback:
+    rollingpolicy:
+      max-file-size: 5MB
+      max-history: 7 # It stores them for 7 days
