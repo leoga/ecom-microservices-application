@@ -59,14 +59,12 @@ The system is designed to be deployed in cloud environments such as AWS:
 - Scalable messaging infrastructure
 - Clear separation between infrastructure and application layers
 
-## 🐳 Installation & Execution
+## 🐳 Installation and Execution with Docker
 
 ### 📋 Prerequisites
 - Docker & Docker Compose
 - Java 26
 - Maven 3.x
-
-## 🐳 Installation and Execution with Docker
 
 ### 1. Clone the repository:
 
