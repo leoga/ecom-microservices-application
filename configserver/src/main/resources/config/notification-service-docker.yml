@@ -23,7 +23,7 @@ spring:
           binder: kafka
       kafka:
         binder:
-          brokers: kafka:9092
+          brokers: kafka:19092
 
 management:
   endpoints:
@@ -33,6 +33,9 @@ management:
   tracing:
     sampling:
       probability: 1.0
+    export:
+      zipkin:
+        endpoint: ${ZIPKIN_URL:http://zipkin:9411/api/v2/spans}
 
 eureka:
   client:

@@ -31,10 +31,6 @@
 		<spring-cloud.version>2025.1.1</spring-cloud.version>
 	</properties>
 	<dependencies>
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.cloud</groupId>-->
-<!--			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>-->
-<!--		</dependency>-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
@@ -93,6 +89,39 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<layers>
+						<enabled>true</enabled>
+					</layers>
+					<image>
+						<name>ecom/config-server</name>
+						<env>
+							<BP_HEALTH_CHECKER_ENABLED>true</BP_HEALTH_CHECKER_ENABLED>
+						</env>
+						<buildpacks>
+							<buildpack>urn:cnb:builder:paketo-buildpacks/java</buildpack>
+							<buildpack>docker.io/paketobuildpacks/health-checker:latest</buildpack>
+						</buildpacks>
+					</image>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>3.5.1</version>
+				<configuration>
+					<from>
+						<image>amazoncorretto:26</image>
+					</from>
+					<to>
+						<image>leogatf/config-server</image>
+<!--						docker login has been used instead-->
+<!--						<auth>-->
+<!--							<username>${env.DOCKER_USERNAME}</username>-->
+<!--							<password>${env.DOCKER_PASSWORD}</password>-->
+<!--						</auth>-->
+					</to>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

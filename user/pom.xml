@@ -153,6 +153,27 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                    <image>
+                        <name>ecom/user</name>
+                    </image>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.5.1</version>
+                <configuration>
+                    <from>
+                        <image>amazoncorretto:26</image>
+                    </from>
+                    <to>
+                        <image>leogatf/user</image>
+<!--						docker login has been used instead-->
+<!--						<auth>-->
+<!--							<username>${env.DOCKER_USERNAME}</username>-->
+<!--							<password>${env.DOCKER_PASSWORD}</password>-->
+<!--						</auth>-->
+                    </to>
                 </configuration>
             </plugin>
         </plugins>

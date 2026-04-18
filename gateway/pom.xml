@@ -126,6 +126,29 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<image>
+						<name>ecom/gateway</name>
+					</image>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>3.5.1</version>
+				<configuration>
+					<from>
+						<image>amazoncorretto:26</image>
+					</from>
+					<to>
+						<image>leogatf/gateway</image>
+<!--						docker login has been used instead-->
+<!--						<auth>-->
+<!--							<username>${env.DOCKER_USERNAME}</username>-->
+<!--							<password>${env.DOCKER_PASSWORD}</password>-->
+<!--						</auth>-->
+					</to>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

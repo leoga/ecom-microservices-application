@@ -11,7 +11,12 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://keycloak:8080/realms/ecom-app
+          issuer-uri: http://localhost:8443/realms/ecom-app
+          jwk-set-uri: http://keycloak:8080/realms/ecom-app/protocol/openid-connect/certs
+  data:
+    redis:
+      host: redis
+      port: 6379
 
 server:
   port: 8080
@@ -24,6 +29,9 @@ management:
   tracing:
     sampling:
       probability: 1.0 # It means that it will capture 100% of the requests. This should be 10% or 20% (0.1 or 0.2)
+    export:
+      zipkin:
+        endpoint: ${ZIPKIN_URL:http://zipkin:9411/api/v2/spans}
   endpoint:
     health:
       show-details: always
@@ -63,4 +71,3 @@ resilience4j:
         failure-rate-threshold: 50
         automatic-transition-from-open-to-half-open-enabled: true
         sliding-window-type: count_based
-

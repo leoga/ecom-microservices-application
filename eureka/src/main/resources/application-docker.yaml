@@ -13,6 +13,9 @@ management:
   tracing:
     sampling:
       probability: 1.0 # It means that it will capture 100% of the requests. This should be 10% or 20% (0.1 or 0.2)
+    export:
+      zipkin:
+        endpoint: ${ZIPKIN_URL:http://zipkin:9411/api/v2/spans}
 
 eureka:
   client:
