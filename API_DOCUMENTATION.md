@@ -56,7 +56,7 @@ POST /api/users
 
 ### Update User
 ```http
-PUT /api/users/{id}
+PATCH /api/users/{id}
 ```
 
 **Path Parameters**:
@@ -201,7 +201,7 @@ POST /api/products
 
 ### Update Product
 ```http
-PUT /api/products/{id}
+PATCH /api/products/{id}
 ```
 
 **Path Parameters**:
@@ -464,6 +464,8 @@ POST /api/orders
 ### UserRequest
 ```json
 {
+  "userName": "String",
+  "password": "String",
   "firstName": "String",
   "lastName": "String",
   "email": "String",
@@ -476,6 +478,7 @@ POST /api/orders
 ```json
 {
   "id": "String",
+  "keycloakId": "String",
   "firstName": "String",
   "lastName": "String",
   "email": "String",
@@ -573,6 +576,8 @@ POST /api/orders
 curl -X POST http://localhost:8082/api/users \
   -H "Content-Type: application/json" \
   -d '{
+    "userName": "John",
+    "password": "John",  
     "firstName": "John new",
     "lastName": "Doe new",
     "email": "john@gmail.com",
@@ -589,7 +594,7 @@ curl -X POST http://localhost:8082/api/users \
 
 ### Update a User
 ```bash
-curl -X PUT http://localhost:8082/api/users/69a8715a0d7513753c2209f4 \
+curl -X PATCH http://localhost:8082/api/users/69a8715a0d7513753c2209f4 \
   -H "Content-Type: application/json" \
   -d '{
     "firstName": "John updated",
@@ -627,7 +632,7 @@ curl -X POST http://localhost:8081/api/products \
 
 ### Update a Product
 ```bash
-curl -X PUT http://localhost:8081/api/products/1 \
+curl -X PATCH http://localhost:8081/api/products/1 \
   -H "Content-Type: application/json" \
   -d '{
     "name": "iPhone 16 Pro Updated",
