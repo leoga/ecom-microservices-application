@@ -210,8 +210,8 @@ All services are preconfigured as Grafana data sources.
 2. Gateway → Keycloak (OAuth2 + PKCE)
 3. Gateway → Eureka (service discovery)
 4. Microservices communication:
-  - REST (synchronous)
-  - Kafka (asynchronous)
+   - REST (synchronous)
+   - Kafka (asynchronous)
 5. Order events → Notification service
 6. Config updates → RabbitMQ (Spring Cloud Bus)
 7. Observability stack collects logs, metrics, and traces
