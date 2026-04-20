@@ -315,24 +315,16 @@ Services --> Zipkin
 
 ## 💡 Why this project
 
-This project demonstrates how to design and implement a production-like microservices architecture, including:
+This project was initially inspired by a training course and later evolved into a platform that demonstrates how to design and implement a production-like microservices architecture, incorporating real-world features and architectural improvements, including:
 
 - Distributed system patterns
 - Observability (metrics, logs, tracing)
 - Multiple containerization strategies (Dockerfile, Buildpacks, Jib)
 - Secure API exposure using OAuth2 and PKCE
 - Event-driven communication with Kafka
+- Build scripts included for automation
 
 It is intended as a portfolio project to showcase real-world backend architecture skills.
-
-
-## 📌 Notes
-
-This project was initially inspired by a training course and later extended with additional features and architectural improvements to resemble a production-like distributed system.
-
-- Observability stack fully integrated into Docker Compose
-- Multiple containerization strategies supported
-- Build scripts included for automation
 
 ## 👤 Author
 
