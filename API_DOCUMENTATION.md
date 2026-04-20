@@ -60,7 +60,7 @@ PATCH /api/users/{id}
 ```
 
 **Path Parameters**:
-- `id` (Long) - User ID
+- `id` (String) - User ID
 
 **Request Body (JSON)**:
 ```json
@@ -122,7 +122,7 @@ GET /api/users/{id}
 ```
 
 **Path Parameters**:
-- `id` (Long) - User ID
+- `id` (String) - User ID
 
 **Successful Response (200 OK)**:
 ```json
@@ -154,7 +154,7 @@ DELETE /api/users/{id}
 ```
 
 **Path Parameters**:
-- `id` (Long) - User ID
+- `id` (String) - User ID
 
 **Successful Response (200 OK)**:
 ```json
@@ -345,13 +345,13 @@ POST /api/cart
 ```
 
 **Headers**:
-- `X-User-ID: 1`
+- `X-User-ID: 69a8715a0d7513753c2209f4`
 
 **Request Body (JSON)**:
 ```json
 {
   "productId": "1",
-  "quantity": 1
+  "quantity": 2
 }
 ```
 
@@ -370,17 +370,40 @@ GET /api/cart
 ```
 
 **Headers**:
-- `X-User-ID: 1`
+- `X-User-ID: 69a8715a0d7513753c2209f4`
 
 **Successful Response (200 OK)**:
 ```json
 [
   {
-    "id": 1,
-    "userId": "1",
-    "productId": "1",
-    "quantity": 1,
-    "price": 1000.00
+    "id": 4,
+    "price": 2199.98,
+    "product": {
+      "active": true,
+      "category": "Electronics",
+      "description": "Latest iPhone with amazing features",
+      "id": 1,
+      "imageUrl": "https://placehold.co/600x400",
+      "name": "iPhone 19 Pro",
+      "price": 1099.99,
+      "stockQuantity": 44
+    },
+    "quantity": 2,
+    "user": {
+      "address": {
+        "city": "New York",
+        "country": "USA",
+        "state": "NY",
+        "street": "123 Main St",
+        "zipcode": "10001"
+      },
+      "email": "john@gmail.com",
+      "firstName": "John",
+      "id": "69a8715a0d7513753c2209f4",
+      "lastName": "Doe",
+      "phone": "335128571",
+      "role": "CUSTOMER"
+    }
   }
 ]
 ```
@@ -395,7 +418,7 @@ DELETE /api/cart/items/{productId}
 ```
 
 **Headers**:
-- `X-User-ID: 1`
+- `X-User-ID: 69a8715a0d7513753c2209f4`
 
 **Path Parameters**:
 - `productId` (Long) - Product ID to remove
@@ -422,7 +445,7 @@ POST /api/orders
 ```
 
 **Headers**:
-- `X-User-ID: 1`
+- `X-User-ID: 69a8715a0d7513753c2209f4`
 
 **Description**: Creates an order with all items from the user's cart and empties the cart.
 
@@ -430,14 +453,14 @@ POST /api/orders
 ```json
 {
   "id": 1,
-  "totalAmount": 1000.00,
+  "totalAmount": 2199.98,
   "status": "CONFIRMED",
   "items": [
     {
       "id": 1,
       "productId": "1",
-      "quantity": 1,
-      "price": 1000.00
+      "quantity": 2,
+      "price": 2199.98
     }
   ],
   "createdAt": "2026-03-04T19:08:50.44672"
@@ -539,8 +562,8 @@ POST /api/orders
 ```json
 {
   "id": "Long",
-  "userId": "String",
-  "productId": "String",
+  "user": "UserResponse",
+  "product": "ProductResponse",
   "quantity": "Integer",
   "price": "BigDecimal"
 }
@@ -653,7 +676,7 @@ curl -X DELETE http://localhost:8081/api/products/1
 ```bash
 curl -X POST http://localhost:8083/api/cart \
   -H "Content-Type: application/json" \
-  -H "X-User-ID: 1" \
+  -H "X-User-ID: 69a8715a0d7513753c2209f4" \
   -d '{
     "productId": 1,
     "quantity": 1
@@ -663,19 +686,19 @@ curl -X POST http://localhost:8083/api/cart \
 ### Get Cart Items
 ```bash
 curl -X GET http://localhost:8083/api/cart \
-  -H "X-User-ID: 1"
+  -H "X-User-ID: 69a8715a0d7513753c2209f4"
 ```
 
 ### Remove Product from Cart
 ```bash
 curl -X DELETE http://localhost:8083/api/cart/items/1 \
-  -H "X-User-ID: 1"
+  -H "X-User-ID: 69a8715a0d7513753c2209f4"
 ```
 
 ### Create Order
 ```bash
 curl -X POST http://localhost:8083/api/orders \
-  -H "X-User-ID: 1"
+  -H "X-User-ID: 69a8715a0d7513753c2209f4"
 ```
 
 ---
