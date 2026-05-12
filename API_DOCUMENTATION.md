@@ -12,10 +12,10 @@ RESTful API for e-commerce management with users, products, shopping cart, and o
 
 ## 📑 Table of Contents
 
-1. [Users](#users)
-2. [Products](#products)
-3. [Shopping Cart](#shopping-cart)
-4. [Orders](#orders)
+1. [Users](#-users)
+2. [Products](#-products)
+3. [Shopping Cart](#-shopping-cart)
+4. [Orders](#-orders)
 
 ---
 

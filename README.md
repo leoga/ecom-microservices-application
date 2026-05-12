@@ -6,11 +6,69 @@ The system implements a distributed architecture including API Gateway, service 
 
 ## ⚡ Quick Start
 
+### Docker environment
+
 Make sure Docker is running, then:
-```
-git clone https://github.com/leoga/ecom-microservices-application
-cd ecom-microservices-application/deploy/docker
+
+```bash
+git clone https://github.com/leoga/ecomapp-microservices-application
+cd ecomapp-microservices-application/deploy/docker-ecom
 docker compose up -d
+```
+
+---
+
+### Kubernetes environment (Minikube)
+
+Make sure Docker Desktop, Minikube, kubectl, and Helm are installed.
+
+Start the full Kubernetes environment:
+
+```bash
+cd deploy/k8s
+./start.sh
+```
+
+This deploys:
+
+- Infrastructure
+- Microservices
+- Monitoring stack
+- Logging
+- Tracing
+- Grafana dashboards
+
+It will enable the following URLs:
+
+```text
+👉 Gateway:   http://localhost:8080
+👉 Keycloak:  http://localhost:8443
+👉 Grafana:   http://localhost:3000
+```
+
+---
+
+### Kubernetes without observability stack
+
+To start only the infrastructure and microservices:
+
+```bash
+./start-microservices.sh
+```
+
+It will enable the following URLs:
+
+```text
+👉 Gateway:   http://localhost:8080
+👉 Keycloak:  http://localhost:8443
+```
+
+---
+
+### Stop Kubernetes environment
+
+```bash
+./stop.sh
 ```
 
 > ℹ️ RabbitMQ is configured using [CloudAMQP](https://www.cloudamqp.com/). Connection details are loaded from environment variables (.env files).
@@ -36,21 +94,61 @@ This project follows a microservices architecture where each service is independ
   - Distributed tracing via Zipkin
   - Visualization through Grafana dashboards
 - **Containerization**: Full Docker-based deployment
+- **Kubernetes Support**:
+    - Helm chart deployment
+    - ServiceMonitor integration for Prometheus
+    - Automated deployment scripts
+    - Namespace isolation
+    - Native Kubernetes service discovery
+
+### Additional Resources
+
+- Keycloak realm backup included
+- Postman collection included for endpoint testing
 
 ## 📦 Deployment Structure
 
-All Docker-related configuration has been consolidated into:
+### Docker deployment
 
+All Docker-related configuration is located in:
+
+```text
+ecomapp-microservices/deploy/docker-ecom
 ```
-ecom-microservices/deploy/docker
+
+### Kubernetes deployment
+
+All Kubernetes-related configuration is located in:
+
+```text
+ecomapp-microservices/deploy/k8s
 ```
 
-### Key files
+Including:
 
-- docker-compose.yml → Full platform (infrastructure + app services)
-- docker-compose-without-app-services.yml → Infrastructure only (run services locally)
+- Helm charts
+- Infrastructure manifests
+- Monitoring stack
+- Deployment automation scripts
 
-📌 Run all Docker commands from this directory.
+---
+
+### Key Docker files
+
+- docker-compose.yml → Full platform
+- docker-compose-without-app-services.yml → Infrastructure only
+
+---
+
+### Key Kubernetes scripts
+
+- start.sh → Full Kubernetes environment
+- start-microservices.sh → Infrastructure + microservices only
+- stop.sh → Stops Kubernetes environment
+
+📌 Run Docker commands from `deploy/docker-ecom`
+
+📌 Run Kubernetes commands/scripts from `deploy/k8s`
 
 ## 🐳 Containerization Strategies
 
@@ -156,51 +254,109 @@ Requirements:
 
 ## ⚙️ Build Automation
 
-Scripts are provided to automate builds:
+### Docker scripts
 
 - build-projects.sh
 - build-projects-buildpack.sh
 - build-projects-jib-build.sh
 - build-projects-jib-docker-build.sh
 
+### Kubernetes scripts
+
+- start.sh
+- start-microservices.sh
+- stop.sh
+
 Important:
+
 - These scripts require a Unix-like environment
 - Use Git Bash on Windows or any Linux/macOS terminal
 
 ## 🚀 Running the Platform
 
-💡 Make sure you are inside `deploy/docker` before running these commands.
+### Docker - Full platform
 
-### Full platform (containers + services)
-
-```
+```bash
 docker compose up -d
 ```
 
 ---
 
-### Infrastructure only (run services locally)
+### Docker - Infrastructure only
 
-```
+```bash
 docker compose -f docker-compose-without-app-services.yml up -d
 ```
 
 This starts:
-- Databases
+
+- PostgreSQL
 - Kafka
 - Keycloak
 - Observability stack
 
 But NOT the microservices, allowing you to run them from your IDE.
 
+---
+
+### Kubernetes - Full platform
+
+```bash
+cd deploy/k8s
+./start.sh
+```
+
+The RabbitMQ credentials ([CloudAMQP](https://www.cloudamqp.com/)) are stored in the `.env` file located under `/helm/ecomapp/secrets`.
+
+It will enable the following URLs:
+
+```text
+👉 Gateway:   http://localhost:8080
+👉 Keycloak:  http://localhost:8443
+👉 Grafana:   http://localhost:3000
+```
+
+---
+
+### Kubernetes - Microservices only
+
+```bash
+./start-microservices.sh
+```
+
+It will enable the following URLs:
+
+```text
+👉 Gateway:   http://localhost:8080
+👉 Keycloak:  http://localhost:8443
+```
+
 ## 📊 Observability Stack
 
-Integrated into Docker Compose:
+Integrated into both Docker Compose and Kubernetes deployments.
+
+### Components
+
+- Grafana
+- Prometheus
+- Loki
+- Promtail
+- Zipkin
+
+### Features
+
+- Centralized logs
+- Distributed tracing
+- Metrics collection
+- ServiceMonitor integration
+- Grafana dashboards
+
+### Default access
 
 - Grafana → http://localhost:3000
-- Prometheus → http://localhost:9090
 - Zipkin → http://localhost:9411
-- Loki + Alloy → centralized logging
+- Gateway → http://localhost:8080
+- Keycloak → http://localhost:8443
 
 All services are preconfigured as Grafana data sources.
 
@@ -305,24 +461,35 @@ Services --> Zipkin
 - PostgreSQL 18
 - MongoDB Community
 - Kafka
+- RabbitMQ
 - Docker & Docker Compose
+- Kubernetes
+- Helm
+- Minikube
+- Prometheus
+- Grafana
+- Loki
+- Zipkin
 - Jib & Buildpacks
 - Maven
-- Additional dependencies:
-  - Lombok
-  - MapStruct
-  - Spring Data JPA (Hibernate/JPA)
+
+### Additional dependencies
+
+- Lombok
+- MapStruct
+- Spring Data JPA (Hibernate/JPA)
 
 ## 💡 Why this project
 
 This project was initially inspired by a training course and later evolved into a platform that demonstrates how to design and implement a production-like microservices architecture, incorporating real-world features and architectural improvements, including:
 
 - Distributed system patterns
+- Kubernetes deployment
 - Observability (metrics, logs, tracing)
 - Multiple containerization strategies (Dockerfile, Buildpacks, Jib)
 - Secure API exposure using OAuth2 and PKCE
 - Event-driven communication with Kafka
-- Build scripts included for automation
+- Build and deployment automation scripts
 
 It is intended as a portfolio project to showcase real-world backend architecture skills.
 

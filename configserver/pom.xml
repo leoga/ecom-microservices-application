@@ -114,7 +114,7 @@
 						<image>amazoncorretto:26</image>
 					</from>
 					<to>
-						<image>leogatf/config-server</image>
+						<image>leogatf/ecom-config-server</image>
 <!--						docker login has been used instead-->
 <!--						<auth>-->
 <!--							<username>${env.DOCKER_USERNAME}</username>-->

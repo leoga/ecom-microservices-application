@@ -1,8 +1,8 @@
 services-url:
-  product-url: lb://PRODUCT-SERVICE
-  user-url: lb://USER-SERVICE
-  order-url: lb://ORDER-SERVICE
-  environment: docker
+  product-url: http://product-service
+  user-url: http://user-service
+  order-url: http://order-service
+  environment: kubernetes
 
 spring:
   rabbitmq:
@@ -21,7 +21,7 @@ spring:
           jwk-set-uri: http://keycloak:8080/realms/ecom-app/protocol/openid-connect/certs
   data:
     redis:
-      host: redis
+      host: redis-master
       port: 6379
 
 server:
@@ -37,7 +37,7 @@ management:
       probability: 1.0 # It means that it will capture 100% of the requests. This should be 10% or 20% (0.1 or 0.2)
     export:
       zipkin:
-        endpoint: ${ZIPKIN_URL:http://zipkin:9411/api/v2/spans}
+        endpoint: ${ZIPKIN_URL:http://zipkin.monitoring:9411/api/v2/spans}
   endpoint:
     health:
       show-details: always
@@ -59,10 +59,10 @@ logging:
 
 eureka:
   client:
-    serviceUrl:
-      defaultZone: http://eureka:8761/eureka
-    register-with-eureka: true
-    fetch-registry: true
+#    serviceUrl:
+#      defaultZone: http://eureka:8761/eureka
+    register-with-eureka: false
+    fetch-registry: false
 
 # Circuit Breaker
 resilience4j:

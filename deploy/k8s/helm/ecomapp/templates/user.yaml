@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user
+  namespace: ecomapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user
+  template:
+    metadata:
+      labels:
+        app: user
+
+    spec:
+      initContainers:
+        - name: wait-config
+          image: busybox
+          command: ['sh','-c','until wget -qO- http://config-server/actuator/health; do sleep 5; done']
+
+        - name: wait-mongodb
+          image: mongo:7
+          command:
+            [ "sh", "-c", "until mongosh --host mongodb:27017 --eval \"db.adminCommand('ping')\" >/dev/null 2>&1; do sleep 5; done"]
+
+      containers:
+        - name: user
+          image: {{ .Values.user.image }}
+          ports:
+            - containerPort: {{ .Values.user.port }}
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: k8s,gitk8s
+          envFrom:
+            - secretRef:
+                name: rabbitmq-env
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-service
+  namespace: ecomapp
+  labels:
+    app: user
+    application: user-service
+spec:
+  type: NodePort
+  ports:
+    - name: http
+      port: 80
+      targetPort: {{ .Values.user.port }}
+  selector:
+    app: user

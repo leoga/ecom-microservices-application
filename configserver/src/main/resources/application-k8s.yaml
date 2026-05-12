@@ -1,0 +1,50 @@
+spring:
+  application:
+    name: configserver
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USER:guest}
+    password: ${RABBITMQ_PASS:guest}
+    virtual-host: ${RABBITMQ_VHOST:guest}
+    connection-timeout: 30000
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/leoga/app-configuration
+          search-paths:
+            - ecom-microservices
+# in case of private repository
+#          username: ${GIT_USER}
+#          password: ${GIT_TOKEN}
+        native:
+          search-locations: classpath:/config
+
+encrypt:
+  key-store:
+    location: config-server.jks
+    password: mypass
+    alias: config-server-key
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "busrefresh,prometheus,health"
+  tracing:
+    sampling:
+      probability: 1.0 # It means that it will capture 100% of the requests. This should be 10% or 20% (0.1 or 0.2)
+
+server:
+  port: 8889
+
+logging:
+  level:
+    root: INFO #(TRACE, DEBUG, INFO, WARN, ERROR)
+  file:
+    name: logs/${spring.application.name}.log
+  logback:
+    rollingpolicy:
+      max-file-size: 5MB
+      max-history: 7 # It stores them for 7 days

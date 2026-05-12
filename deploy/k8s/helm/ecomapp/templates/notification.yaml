@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notification
+  namespace: ecomapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notification
+  template:
+    metadata:
+      labels:
+        app: notification
+    spec:
+      initContainers:
+        - name: wait-config
+          image: busybox
+          command: ['sh','-c','until wget -qO- http://config-server/actuator/health; do sleep 5; done']
+
+      containers:
+        - name: notification
+          image: {{ .Values.notification.image }}
+          ports:
+            - containerPort: {{ .Values.notification.port }}
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: k8s,gitk8s
+          envFrom:
+            - secretRef:
+                name: rabbitmq-env
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: notification-service
+  namespace: ecomapp
+  labels:
+    app: notification
+    application: notification-service
+spec:
+  type: NodePort
+  ports:
+    - name: http
+      port: 80
+      targetPort: {{ .Values.notification.port }}
+  selector:
+    app: notification

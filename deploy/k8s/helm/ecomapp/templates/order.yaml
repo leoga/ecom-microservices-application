@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order
+  namespace: ecomapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order
+  template:
+    metadata:
+      labels:
+        app: order
+    spec:
+      initContainers:
+        - name: wait-config
+          image: busybox
+          command: ['sh','-c','until wget -qO- http://config-server/actuator/health; do sleep 5; done']
+
+        - name: wait-postgres
+          image: busybox
+          command: [ 'sh','-c','until nc -z postgres-postgresql 5432; do sleep 5; done' ]
+
+      containers:
+        - name: order
+          image: {{ .Values.order.image }}
+          ports:
+            - containerPort: {{ .Values.order.port }}
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: k8s,gitk8s
+          envFrom:
+            - secretRef:
+                name: rabbitmq-env
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-service
+  namespace: ecomapp
+  labels:
+    app: order
+    application: order-service
+spec:
+  type: NodePort
+  ports:
+    - name: http
+      port: 80
+      targetPort: {{ .Values.order.port }}
+  selector:
+    app: order

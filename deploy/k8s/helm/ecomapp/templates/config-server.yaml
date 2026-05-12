@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: config-server
+  namespace: ecomapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: config-server
+  template:
+    metadata:
+      labels:
+        app: config-server
+    spec:
+      containers:
+        - name: config-server
+          image: {{ .Values.configserver.image }}
+          ports:
+            - containerPort: {{ .Values.configserver.port }}
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: k8s
+          envFrom:
+            - secretRef:
+                name: rabbitmq-env
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: config-server
+  namespace: ecomapp
+  labels:
+    app: config-server
+    application: config-server
+spec:
+  type: NodePort
+  ports:
+    - name: http
+      port: 80
+      targetPort: {{ .Values.configserver.port }}
+  selector:
+    app: config-server

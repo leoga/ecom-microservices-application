@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product
+  namespace: ecomapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: product
+  template:
+    metadata:
+      labels:
+        app: product
+    spec:
+      initContainers:
+        - name: wait-config
+          image: busybox
+          command: ['sh','-c','until wget -qO- http://config-server/actuator/health; do sleep 5; done']
+
+        - name: wait-postgres
+          image: busybox
+          command: ['sh','-c','until nc -z postgres-postgresql 5432; do sleep 5; done']
+
+      containers:
+        - name: product
+          image: {{ .Values.product.image }}
+          ports:
+            - containerPort: {{ .Values.product.port }}
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: k8s,gitk8s
+          envFrom:
+            - secretRef:
+                name: rabbitmq-env
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: product-service
+  namespace: ecomapp
+  labels:
+    app: product
+    application: product-service
+spec:
+  type: NodePort
+  ports:
+    - name: http
+      port: 80
+      targetPort: {{ .Values.product.port }}
+  selector:
+    app: product

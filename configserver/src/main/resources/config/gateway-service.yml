@@ -33,6 +33,12 @@
 #              uri: http://localhost:8761
 #              predicates:
 #                - Path=/eureka/**
+services-url:
+  product-url: lb://PRODUCT-SERVICE
+  user-url: lb://USER-SERVICE
+  order-url: lb://ORDER-SERVICE
+  environment: localhost
+
 spring:
   rabbitmq:
     host: ${RABBITMQ_HOST:localhost}

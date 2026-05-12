@@ -1,0 +1,4 @@
+apiVersion: v2
+name: ecomapp
+version: 0.1.0
+description: Ecommerce App microservices

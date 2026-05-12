@@ -1,0 +1,23 @@
+gateway:
+  image: leogatf/ecom-gateway:latest
+  port: 8080
+
+configserver:
+  image: leogatf/ecom-config-server:latest
+  port: 8889
+
+product:
+  image: leogatf/product:latest
+  port: 8081
+
+user:
+  image: leogatf/user:latest
+  port: 8082
+
+order:
+  image: leogatf/order:latest
+  port: 8083
+
+notification:
+  image: leogatf/notification:latest
+  port: 8084
