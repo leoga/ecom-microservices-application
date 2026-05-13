@@ -2,7 +2,7 @@
 
 Production-like microservices-based eCommerce platform built with Spring Boot and Java, designed following modern distributed system principles.
 
-The system implements a distributed architecture including API Gateway, service discovery, centralized configuration, event-driven communication, resilience patterns, security, and a full observability stack. The infrastructure is fully containerized using Docker, including the observability stack and deployment configuration.
+The system implements a distributed architecture including API Gateway, service discovery, centralized configuration, event-driven communication, resilience patterns, security, and a full observability stack. The infrastructure is fully containerized using Docker and additionally supports Kubernetes deployment using Helm charts and automation scripts.
 
 ## ⚡ Quick Start
 
